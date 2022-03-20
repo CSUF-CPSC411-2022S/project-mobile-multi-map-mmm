@@ -9,6 +9,7 @@ import SwiftUI
 
 
 struct ContentView: View {
+    @StateObject var user = UserForm()
     var body: some View {
         TabView{
             UserScreen()
@@ -31,7 +32,7 @@ struct ContentView: View {
                     Image(systemName: "mappin.circle")
                     Text("Routes")
                 }
-        }
+        }.environmentObject(user)
     }
 }
 

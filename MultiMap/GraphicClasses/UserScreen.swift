@@ -9,28 +9,116 @@ import SwiftUI
 
 struct AddLocation: View {
     @EnvironmentObject var user: UserForm
-    @Binding var locationNum: Int
-    @StateObject var location = Location()
-    
+    @State var locationNum: Int = 1;
+    @State var name: String = ""
+    @State var streetNum: String = ""
+    @State var streetName: String = ""
+    @State var city: String = ""
+    @State var state: String = ""
+    @State var zip: String = ""
+    var filledForm :  Bool {
+        return name != "" &&
+            streetNum != "" && streetName != ""
+             && city != "" && state != "" && zip != ""
+    }
     var body: some View {
         
         VStack{
-            Text("Add Location #\(locationNum)").font(.system(size:33))
+            Text("Add Location").font(.system(size:33))
                 .bold()
             Spacer()
             HStack {
                 Spacer()
                 Text("Location Name:")
                     .bold()
+                    .frame(width: 125)
+                    .padding(.trailing, 5)
+                    .padding(.leading, 45)
+                TextField("Location Name", text: $name)
+                    .frame(width: 130)
+                    .padding(.trailing, 20)
+                Spacer()
+            }
+            HStack {
+                Spacer()
+                Text("Street Number:")
+                    .bold()
+                    .frame(width: 125)
+                    .padding(.trailing, 5)
+                    .padding(.leading, 45)
+                TextField("Street Number", text: $streetNum)
+                    .frame(width: 130)
+                    .padding(.trailing, 20)
+                Spacer()
+            }
+            HStack {
+                Spacer()
+                Text("Street Name:")
+                    .bold()
+                    .frame(width: 125)
+                    .padding(.trailing, 5)
+                    .padding(.leading, 45)
+                TextField("Street Name", text: $streetName)
+                    .frame(width: 100)
+                    .padding(.trailing, 50)
+                Spacer()
+            }
+            HStack {
+                Spacer()
+                Text("City:")
+                    .bold()
                     .frame(width: 75)
                     .padding(.trailing, 25)
                     .padding(.leading, 75)
-                TextField("Location Name", text: $user.name)
+                TextField("City", text: $city)
+                    .frame(width: 100)
+                    .padding(.trailing, 50)
+                Spacer()
+            }
+            HStack {
+                Spacer()
+                Text("State:")
+                    .bold()
+                    .frame(width: 75)
+                    .padding(.trailing, 25)
+                    .padding(.leading, 75)
+                TextField("State", text: $state)
+                    .frame(width: 100)
+                    .padding(.trailing, 50)
+                Spacer()
+            }
+            HStack {
+                Spacer()
+                Text("Zip:")
+                    .bold()
+                    .frame(width: 75)
+                    .padding(.trailing, 25)
+                    .padding(.leading, 75)
+                TextField("Zip", text: $zip)
                     .frame(width: 100)
                     .padding(.trailing, 50)
                 Spacer()
             }
             Spacer()
+            Button (action: {
+                if(filledForm){
+                    let location = Location(locationNum, name, streetNum, streetName, city, state, zip)
+                    user.locationStops.append(location)
+                    name = ""
+                    streetNum = ""
+                    streetName = ""
+                    city = ""
+                    state = ""
+                    zip = ""
+                    locationNum += 1
+//                    print("***********************Current Location:\n\(location.fullAddress)\n")
+//                    user.printLocations()
+                }
+            }){
+                Text("Add Location")
+                
+            }
+
         }
     }
 }
@@ -73,8 +161,8 @@ struct InitialUserForm: View {
                     .padding(.trailing, 5)
                     .padding(.leading, 45)
                 TextField("House Number", text: $user.streetNum)
-                    .frame(width: 100)
-                    .padding(.trailing, 50)
+                    .frame(width: 130)
+                    .padding(.trailing, 20)
                 Spacer()
             }
             HStack {
@@ -125,14 +213,14 @@ struct InitialUserForm: View {
                     .padding(.trailing, 50)
                 Spacer()
             }
-        }
+            Spacer()
+                    }
     }
 }
 
 struct UserScreen: View{
     @State var allFilled = false
-    @StateObject var user = UserForm()
-    @State var locationNum = 1
+    @EnvironmentObject var user: UserForm
     var body: some View {
         NavigationView{
             GeometryReader { geometry in
@@ -144,13 +232,14 @@ struct UserScreen: View{
                             InitialUserForm()
                         }
                         else{
-                            AddLocation(locationNum: $locationNum)
+                            AddLocation()
                         }
                         Spacer()
                         
                         Button (action: {
                             if(user.checkProperties()){
                                 allFilled.toggle()
+//                                user.printLocations()
                             }
 
                         }){
@@ -159,14 +248,7 @@ struct UserScreen: View{
                             }
                             
                         }
-                        if allFilled{
-                            Button (action: {
-
-                            }){
-                                Text("Add Location")
-                                
-                            }
-                        }
+                        
                         Spacer()
                     
                 }
@@ -177,6 +259,6 @@ struct UserScreen: View{
                 }
                 .navigationTitle("User Form")
             }
-        }.environmentObject(user)
+        }
     }
 }

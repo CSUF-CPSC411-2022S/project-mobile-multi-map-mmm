@@ -8,47 +8,31 @@
 import Foundation
  
  
-class UserForm : ObservableObject {
-    @Published var name: String
+class UserForm : LocationTemplate {
     @Published var age: String
-    @Published var streetNum: String
-    @Published var streetName: String
-    @Published var city: String
-    @Published var state: String
-    @Published var zip: String
-    var fullAddress: String {
-        return "\(self.streetNum) \(self.streetName), \(self.city), \(self.state) \(self.zip)"
-    }
+    @Published var locationStops: [Location] = []
     
-    init() {
-        self.name = ""
+    override init() {
         self.age = ""
-        
-        self.streetNum = ""
-        self.streetName = ""
-        self.city = ""
-        self.state = ""
-        self.zip = ""
+        super.init()
     }
     
     init(_ name: String, _ age: String, _ streetNum: String, _ streetName: String, _ city: String, _ state: String, _ zip: String) {
-        self.name = name
         self.age = age
-        self.streetNum = streetNum
-        self.streetName = streetName
-        self.city = city
-        self.state = state
-        self.zip = zip
+        super.init(name, streetNum, streetName, city, state, zip )
     }
-    
-    
-    
-    func checkProperties() -> Bool{
-       return name != "" && age != "" &&
-           streetNum != "" && streetName != ""
-            && city != "" && state != "" && zip != ""
+    override func checkProperties() -> Bool{
+        let answer = super.checkProperties() && age != ""
+        return answer
     }
-    
+    func printLocations(){
+        print("My name is \(name) and I am \(age) years old.")
+        print("\(fullAddress)\n")
+        locationStops.forEach{
+            loc in
+            print("Number: \(loc.locationNumber), Address: \(loc.fullAddress)")
+        }
+    }
     
 }
  
