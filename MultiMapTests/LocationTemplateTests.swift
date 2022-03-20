@@ -30,11 +30,11 @@ class LocationTemplateTests: XCTestCase {
         XCTAssertEqual(location.zip, "21321")
     }
     
-    func testGet2DCoord() {
-        let location = LocationTemplate("Bruce Wayne", "800", "N State College Blvd", "Fullerton", "CA", "92831")
-        print("Long Lat: \(location.get2DCoord())")
-        XCTAssertEqual(location.get2DCoord(), [33.879799, -117.885231])
-    }
+//    func testGet2DCoord() {
+//        let location = LocationTemplate("Bruce Wayne", "800", "N State College Blvd", "Fullerton", "CA", "92831")
+//        print("Long Lat: \(location.get2DCoord())")
+//        XCTAssertEqual(location.get2DCoord(), [33.879799, -117.885231])
+//    }
     
     func testCheckPropertiesTrue() {
         let location = LocationTemplate("Bruce Wayne", "123", "Bat Drive", "Gotham City", "NY", "21321")

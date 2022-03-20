@@ -47,19 +47,23 @@ class LocationTemplate: ObservableObject {
     }
     
     func get2DCoord()-> [Double]{
-        let geocoder = CLGeocoder()
+        let address = "1 Infinite Loop, Cupertino, CA 95014"
+        print("{******* \(address)")
         var array: [Double] = []
-        geocoder.geocodeAddressString("your address") {
-            placemarks, error in
-            let placemark = placemarks?.first
-            let lat = placemark?.location?.coordinate.latitude
-            let lon = placemark?.location?.coordinate.longitude
-            if let validLat = lat {
-                array.append(validLat)
+
+        let geoCoder = CLGeocoder()
+        geoCoder.geocodeAddressString(address) { (placemarks, error) in
+            guard
+                let placemarks = placemarks,
+                let location = placemarks.first?.location
+            else {
+                // handle no location founddo
+                return
             }
-            if let validLon = lon {
-                array.append(validLon)
-            }
+            print("*****\(placemarks)")
+            print("*****\(location)")
+            array.append(location.coordinate.latitude)
+            array.append(location.coordinate.longitude)
         }
         return array
     }
