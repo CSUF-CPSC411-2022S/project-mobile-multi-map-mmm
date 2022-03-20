@@ -130,7 +130,6 @@
 				C29DDFC327D8174E00C11AAA /* InternalClasses */,
 				C29DDF9727D8170A00C11AAA /* MultiMapApp.swift */,
 				C29DDF9927D8170A00C11AAA /* ContentView.swift */,
-				B5BD76E827E65FC8003D5F85 /* MapScreenViewModel.swift */,
 				C29DDF9B27D8170B00C11AAA /* Assets.xcassets */,
 				C29DDF9D27D8170B00C11AAA /* Preview Content */,
 			);
@@ -167,6 +166,7 @@
 		C29DDFC327D8174E00C11AAA /* InternalClasses */ = {
 			isa = PBXGroup;
 			children = (
+				B5BD76E827E65FC8003D5F85 /* MapScreenViewModel.swift */,
 				C29DDFC427D8175E00C11AAA /* UserForm.swift */,
 				C29DDFC627D8177500C11AAA /* Locations.swift */,
 			);
