@@ -24,6 +24,7 @@
 		C29DDFC927D817B000C11AAA /* LocationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29DDFC827D817B000C11AAA /* LocationTests.swift */; };
 		C29DDFCB27D8180400C11AAA /* UserFormTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29DDFCA27D8180400C11AAA /* UserFormTests.swift */; };
 		C29DDFCD27D81A2300C11AAA /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = C29DDFCC27D81A2300C11AAA /* .gitignore */; };
+		C2D3527927E6BCCA00CE8434 /* Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D3527827E6BCCA00CE8434 /* Modifiers.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 		C29DDFC827D817B000C11AAA /* LocationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTests.swift; sourceTree = "<group>"; };
 		C29DDFCA27D8180400C11AAA /* UserFormTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFormTests.swift; sourceTree = "<group>"; };
 		C29DDFCC27D81A2300C11AAA /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		C2D3527827E6BCCA00CE8434 /* Modifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modifiers.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,6 +171,7 @@
 				B5BD76E827E65FC8003D5F85 /* MapScreenViewModel.swift */,
 				C29DDFC427D8175E00C11AAA /* UserForm.swift */,
 				C29DDFC627D8177500C11AAA /* Locations.swift */,
+				C2D3527827E6BCCA00CE8434 /* Modifiers.swift */,
 			);
 			path = InternalClasses;
 			sourceTree = "<group>";
@@ -308,6 +311,7 @@
 				C270BBBA27D9EAF1006F97FA /* MapScreen.swift in Sources */,
 				C29DDFC527D8175E00C11AAA /* UserForm.swift in Sources */,
 				C270BBB827D9E94A006F97FA /* UserScreen.swift in Sources */,
+				C2D3527927E6BCCA00CE8434 /* Modifiers.swift in Sources */,
 				B5BD76E927E65FC8003D5F85 /* MapScreenViewModel.swift in Sources */,
 				C29DDF9A27D8170A00C11AAA /* ContentView.swift in Sources */,
 				C29DDFC727D8177500C11AAA /* Locations.swift in Sources */,

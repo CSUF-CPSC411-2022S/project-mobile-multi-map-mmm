@@ -8,21 +8,26 @@
 import Foundation
 import UIKit
 
-class Locations {
+class Location: ObservableObject, Identifiable {
     // Properties of Locations
-    var x_loc: Int
-    var y_loc: Int
-    
+    @Published var x_loc: Int
+    @Published var y_loc: Int
+    @Published var name: String
+    @Published var address: String;
     // Initializers
     
     init() {
         self.x_loc = 0
         self.y_loc = 0
+        self.name = "";
+        self.address = "";
     }
     
-    init(x: Int, y: Int) {
+    init(x: Int, y: Int, name: String, address: String) {
         self.x_loc = x
         self.y_loc = y
+        self.name = name
+        self.address = address;
     }
     
     // Deinitializer called when user wants to delete a specific location
