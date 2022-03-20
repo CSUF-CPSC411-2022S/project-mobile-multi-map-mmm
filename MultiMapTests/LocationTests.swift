@@ -10,29 +10,16 @@ import XCTest
 @testable import MultiMap
 
 class LocationsTests: XCTestCase {
-    func testNoValue() {
-        let test = Location()
-        XCTAssertEqual(test.x_loc, 0)
-        XCTAssertEqual(test.y_loc, 0)
-    }
     
-    func testNegativeValue() {
-        let test = Location(x: -25, y: 50)
-        XCTAssertEqual(test.x_loc, -25)
-        XCTAssertEqual(test.y_loc, 50)
-        test.y_loc = -100
-        XCTAssertEqual(test.y_loc, -100)
+    func testNonEmptyInitializer() {
+        let location = Location(1, "Irvine Spectrum", "670", "Spectrum Center Dr.", "Irvine", "CA", "92618")
+        XCTAssertEqual(location.locationNumber, 1)
+        XCTAssertEqual(location.name, "Irvine Spectrum")
+        XCTAssertEqual(location.streetNum, "670")
+        XCTAssertEqual(location.streetName, "Spectrum Center Dr.")
+        XCTAssertEqual(location.city, "Irvine")
+        XCTAssertEqual(location.state, "CA")
+        XCTAssertEqual(location.zip, "92618")
     }
-    
-    func testThirdLocationValue() {
-        let test = Location(x: 3, y: 4)
-        XCTAssertEqual(test.getThirdLocation(), 5)
-        let test2 = Location(x: 6, y: 8)
-        XCTAssertEqual(test2.getThirdLocation(), 10)
-    }
-    
-    func testThirdLocationNegativeValue() {
-        let test = Location(x: -3, y: -4)
-        XCTAssertEqual(test.getThirdLocation(), 5)
-    }
+
 }

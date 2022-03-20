@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		92C0BF4C27E7B68800D4628C /* LocationTemplateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92C0BF4B27E7B68800D4628C /* LocationTemplateTests.swift */; };
 		B5BD76E927E65FC8003D5F85 /* MapScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BD76E827E65FC8003D5F85 /* MapScreenViewModel.swift */; };
 		C270BBB827D9E94A006F97FA /* UserScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = C270BBB727D9E94A006F97FA /* UserScreen.swift */; };
 		C270BBBA27D9EAF1006F97FA /* MapScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = C270BBB927D9EAF1006F97FA /* MapScreen.swift */; };
@@ -46,6 +47,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		92C0BF4B27E7B68800D4628C /* LocationTemplateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTemplateTests.swift; sourceTree = "<group>"; };
 		B5BD76E827E65FC8003D5F85 /* MapScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapScreenViewModel.swift; sourceTree = "<group>"; };
 		C270BBB727D9E94A006F97FA /* UserScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserScreen.swift; sourceTree = "<group>"; };
 		C270BBB927D9EAF1006F97FA /* MapScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapScreen.swift; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 				C29DDFA827D8170B00C11AAA /* MultiMapTests.swift */,
 				C29DDFC827D817B000C11AAA /* LocationTests.swift */,
 				C29DDFCA27D8180400C11AAA /* UserFormTests.swift */,
+				92C0BF4B27E7B68800D4628C /* LocationTemplateTests.swift */,
 			);
 			path = MultiMapTests;
 			sourceTree = "<group>";
@@ -330,6 +333,7 @@
 			files = (
 				C29DDFCB27D8180400C11AAA /* UserFormTests.swift in Sources */,
 				C29DDFC927D817B000C11AAA /* LocationTests.swift in Sources */,
+				92C0BF4C27E7B68800D4628C /* LocationTemplateTests.swift in Sources */,
 				C29DDFA927D8170B00C11AAA /* MultiMapTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

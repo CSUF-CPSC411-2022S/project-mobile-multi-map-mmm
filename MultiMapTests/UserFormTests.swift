@@ -36,4 +36,16 @@ class UserFormTests: XCTestCase {
         XCTAssertEqual(user.fullAddress, "123 Bat Drive, Gotham City, NY 21321")
     }
     
+    func testCheckPropertiesTrue() {
+        let user = UserForm("Bruce Wayne", "28", "123", "Bat Drive", "Gotham City", "NY", "21321")
+        XCTAssertEqual(user.checkProperties(), true)
+    }
+    
+    func testCheckPropertiesFalse() {
+        let user = UserForm("Bruce Wayne", "", "123", "Bat Drive", "Gotham City", "NY", "21321")
+        let user2 = UserForm()
+        XCTAssertEqual(user.checkProperties(), false)
+        XCTAssertEqual(user2.checkProperties(), false)
+    }
+    
 }

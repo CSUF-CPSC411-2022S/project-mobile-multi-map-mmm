@@ -63,6 +63,7 @@ class LocationTemplate: ObservableObject {
         }
         return array
     }
+    
     func checkProperties() -> Bool{
        return name != "" && 
            streetNum != "" && streetName != ""
