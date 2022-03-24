@@ -6,11 +6,13 @@
 //
  
 import Foundation
- 
+import MapKit
  
 class UserForm : LocationTemplate {
     @Published var age: String
     @Published var locationStops: [Location] = []
+    @Published var coordinateArray: [CLLocationCoordinate2D] = []
+    @Published var routes: [[Location]] = []
     
     override init() {
         self.age = ""
@@ -32,6 +34,30 @@ class UserForm : LocationTemplate {
             loc in
             print("Number: \(loc.locationNumber), Address: \(loc.fullAddress)")
         }
+    }
+    func addStop(at location:Location){
+        locationStops.append(location);
+        coordinateArray.append(location.get2DCoord())
+    }
+    func saveRoute(){
+        routes.append(locationStops)
+       
+    }
+    func clearRoute(){
+        locationStops = []
+        coordinateArray = []
+    }
+    func optimizeRoute(){
+        var start: CLLocationCoordinate2D = get2DCoord()
+        for i in 0...coordinateArray.count-1
+        {
+         
+        }
+        // create your route Polyline
+        
+
+        // first remove previously added overlays if any then add your newly created route polyline
+        
     }
     
 }

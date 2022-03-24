@@ -103,7 +103,7 @@ struct AddLocation: View {
             Button (action: {
                 if(filledForm){
                     let location = Location(locationNum, name, streetNum, streetName, city, state, zip)
-                    user.locationStops.append(location)
+                    user.addStop(at: location)
                     name = ""
                     streetNum = ""
                     streetName = ""

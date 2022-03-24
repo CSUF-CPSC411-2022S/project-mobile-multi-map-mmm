@@ -46,10 +46,10 @@ class LocationTemplate: ObservableObject {
         print("Deleting location...")
     }
     
-    func get2DCoord()-> [Double]{
+    func get2DCoord()-> CLLocationCoordinate2D{
         let address = "1 Infinite Loop, Cupertino, CA 95014"
         print("{******* \(address)")
-        var array: [Double] = []
+        var result : CLLocationCoordinate2D = CLLocationCoordinate2D();
 
         let geoCoder = CLGeocoder()
         geoCoder.geocodeAddressString(address) { (placemarks, error) in
@@ -60,12 +60,9 @@ class LocationTemplate: ObservableObject {
                 // handle no location founddo
                 return
             }
-            print("*****\(placemarks)")
-            print("*****\(location)")
-            array.append(location.coordinate.latitude)
-            array.append(location.coordinate.longitude)
+            result = location.coordinate
         }
-        return array
+        return result
     }
     
     func checkProperties() -> Bool{
