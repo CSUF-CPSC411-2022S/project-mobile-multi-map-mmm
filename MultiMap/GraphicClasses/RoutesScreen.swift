@@ -16,21 +16,33 @@ struct Bookmark: Identifiable {
 
 struct RoutesScreen: View{
     let items: [Bookmark] = [.example1, .example2]
+    
+    init(){
+        UITableView.appearance().backgroundColor = .clear
+    }
+
 
     
     var body: some View {
+        
+        
         NavigationView{
-            ZStack{
-                Color.red
-                
-                List(items, children: \.items) { row in
-                    Text(row.name)
-                    Text(": ")
-                    Text(row.address)
+            VStack{
+                Spacer()
+                ZStack{
+                    Color.red
+                    List(items, children: \.items) { row in
+                        Text(row.name)
+                        Text(": ")
+                        Text(row.address)
+                    }
                 }
+
+
                 
             }
-            .navigationTitle("Optimized Route")
+            .navigationTitle("Saved Routes")
+
         }
     }
 }
