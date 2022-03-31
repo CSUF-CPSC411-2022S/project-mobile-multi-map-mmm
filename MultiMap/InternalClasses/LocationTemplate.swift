@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import CoreLocation
+import Dispatch
 
 class LocationTemplate: ObservableObject {
     // Properties of Locations
@@ -46,23 +47,23 @@ class LocationTemplate: ObservableObject {
         print("Deleting location...")
     }
     
-    func get2DCoord()-> CLLocationCoordinate2D{
-        let address = "1 Infinite Loop, Cupertino, CA 95014"
-        print("{******* \(address)")
-        var result : CLLocationCoordinate2D = CLLocationCoordinate2D();
+    
+    func get2DCoord(completion: @escaping (_ loc: CLLocationCoordinate2D?) -> Void) {
+        
+        let address = fullAddress;
 
         let geoCoder = CLGeocoder()
         geoCoder.geocodeAddressString(address) { (placemarks, error) in
-            guard
-                let placemarks = placemarks,
-                let location = placemarks.first?.location
-            else {
-                // handle no location founddo
+            guard let placemarks = placemarks,
+            let loc = placemarks.first?.location?.coordinate else {
+                completion(nil)
                 return
             }
-            result = location.coordinate
+            print("inside location", loc)
+            completion(loc)
         }
-        return result
+        
+        
     }
     
     func checkProperties() -> Bool{

@@ -100,24 +100,46 @@ struct AddLocation: View {
                 Spacer()
             }
             Spacer()
-            Button (action: {
-                if(filledForm){
-                    let location = Location(locationNum, name, streetNum, streetName, city, state, zip)
-                    user.addStop(at: location)
-                    name = ""
-                    streetNum = ""
-                    streetName = ""
-                    city = ""
-                    state = ""
-                    zip = ""
-                    locationNum += 1
-//                    print("***********************Current Location:\n\(location.fullAddress)\n")
-//                    user.printLocations()
+            VStack{
+                Button (action: {
+                    if(filledForm){
+                        let location = Location(locationNum, name, streetNum, streetName, city, state, zip)
+                        user.addStop(at: location)
+                        
+                        name = ""
+                        streetNum = ""
+                        streetName = ""
+                        city = ""
+                        state = ""
+                        zip = ""
+                        locationNum += 1
+                        
+                    }
+                }){
+                    Text("Add Location")
+                    
                 }
-            }){
-                Text("Add Location")
-                
+                Button(action: {
+                    user.printLocations()
+                    user.printCoordinates()
+                    
+                }) {
+                    Text("Print Coordinates")
+                }
+                Button(action: {
+                    if(!user.coordinateArray.isEmpty){
+                        user.saveRoute()
+                    }
+                }) {
+                    Text("Save Route")
+                }
+                Button(action: {
+                    user.clearRoute()
+                }) {
+                    Text("Clear Routes")
+                }
             }
+            
 
         }
     }

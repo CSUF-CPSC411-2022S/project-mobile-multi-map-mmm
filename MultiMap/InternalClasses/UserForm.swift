@@ -32,31 +32,38 @@ class UserForm : LocationTemplate {
         print("\(fullAddress)\n")
         locationStops.forEach{
             loc in
-            print("Number: \(loc.locationNumber), Address: \(loc.fullAddress)")
+            print("#: \(loc.locationNumber)\nName: \(loc.name)\nAddress: \(loc.fullAddress)")
         }
     }
     func addStop(at location:Location){
         locationStops.append(location);
-        coordinateArray.append(location.get2DCoord())
+        location.get2DCoord(){
+            loc in
+            if let validLocation = loc {
+                self.coordinateArray.append(validLocation)
+            }
+            else {
+                print("Location not returned")
+            }
+        }
     }
     func saveRoute(){
         routes.append(locationStops)
-       
+    }
+    func printCoordinates(){
+        if (!coordinateArray.isEmpty){
+            for i in 0...coordinateArray.count-1
+            {
+                print(coordinateArray[i])
+            }
+        }
+        
     }
     func clearRoute(){
         locationStops = []
         coordinateArray = []
     }
     func optimizeRoute(){
-        var start: CLLocationCoordinate2D = get2DCoord()
-        for i in 0...coordinateArray.count-1
-        {
-         
-        }
-        // create your route Polyline
-        
-
-        // first remove previously added overlays if any then add your newly created route polyline
         
     }
     
