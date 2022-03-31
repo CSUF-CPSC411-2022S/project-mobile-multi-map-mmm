@@ -261,6 +261,7 @@ struct UserScreen: View{
                         Button (action: {
                             if(user.checkProperties()){
                                 allFilled.toggle()
+                                user.updateCoordinate()
 //                                user.printLocations()
                             }
 

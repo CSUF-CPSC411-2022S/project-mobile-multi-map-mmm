@@ -13,6 +13,7 @@ class UserForm : LocationTemplate {
     @Published var locationStops: [Location] = []
     @Published var coordinateArray: [CLLocationCoordinate2D] = []
     @Published var routes: [[Location]] = []
+    @Published var coordinate: CLLocationCoordinate2D? = nil;
     
     override init() {
         self.age = ""
@@ -58,6 +59,17 @@ class UserForm : LocationTemplate {
             }
         }
         
+    }
+    func updateCoordinate(){
+        print("Update Coordinate Called")
+        get2DCoord(){
+            loc in
+            if let validLocation = loc {
+                self.coordinate = validLocation
+                print("Updated the coordinate")
+            }
+
+        }
     }
     func clearRoute(){
         locationStops = []

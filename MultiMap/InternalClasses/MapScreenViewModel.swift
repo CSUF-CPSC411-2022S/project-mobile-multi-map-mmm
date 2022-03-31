@@ -6,16 +6,28 @@
 //
 
 import MapKit
+import SwiftUI
+
+
 
 enum MapDetails {
+    
     static let startingLocation = CLLocationCoordinate2D(latitude: 33.879799, longitude: -117.885231)
     static let defaultSpan = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
 }
 
 final class MapScreenViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
+    
+    
     @Published var region = MKCoordinateRegion(center: MapDetails.startingLocation, span: MapDetails.defaultSpan)
     
     var locationManager: CLLocationManager?
+    
+    
+   
+    func updateRegion(startLocation: CLLocationCoordinate2D){
+        region = MKCoordinateRegion(center: startLocation, span: MapDetails.defaultSpan)
+    }
     
     func checkLocationServiceEnabled() {
         if CLLocationManager.locationServicesEnabled() {
