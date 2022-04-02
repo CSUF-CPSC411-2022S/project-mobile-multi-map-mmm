@@ -16,6 +16,13 @@ struct AddLocation: View {
     @State var city: String = ""
     @State var state: String = ""
     @State var zip: String = ""
+    @State private var showingAddAlert = false
+    @State private var successAddAlert = false
+    @State private var showingRouteAlert = false
+    @State private var successRouteAlert = false
+    @State private var showingNewRouteAlert = false
+    @State private var successNewRouteAlert = false
+
     var filledForm :  Bool {
         return name != "" &&
             streetNum != "" && streetName != ""
@@ -101,42 +108,79 @@ struct AddLocation: View {
             }
             Spacer()
             VStack{
-                Button (action: {
+                Button ("Add Location", action: {
                     if(filledForm){
                         let location = Location(locationNum, name, streetNum, streetName, city, state, zip)
-                        user.addStop(at: location)
-                        
-                        name = ""
-                        streetNum = ""
-                        streetName = ""
-                        city = ""
-                        state = ""
-                        zip = ""
-                        locationNum += 1
-                        
+                        location.get2DCoord(){
+                            loc in
+                            if loc != nil {
+                                user.addStop(at: location)
+                                locationNum += 1
+                                showingAddAlert = false
+                                successAddAlert = true
+                               
+                            }
+                            else{
+                                showingAddAlert = true
+                                successAddAlert = false
+                            }
+                            name = ""
+                            streetNum = ""
+                            streetName = ""
+                            city = ""
+                            state = ""
+                            zip = ""
+
+                        }
                     }
-                }){
-                    Text("Add Location")
-                    
-                }
-                Button(action: {
-                    user.printLocations()
-                    user.printCoordinates()
-                    
-                }) {
-                    Text("Print Coordinates")
-                }
-                Button(action: {
+                })
+                .alert("Please enter a valid address", isPresented: $showingAddAlert) {
+                            Button("OK", role: .cancel) { }
+                        }
+                .alert("Location Added", isPresented: $successAddAlert) {
+                            Button("OK", role: .cancel) { }
+                        }
+                
+                
+                Button("Save Current Route", action: {
                     if(!user.coordinateArray.isEmpty){
                         user.saveRoute()
+                        showingRouteAlert = false;
+                        successRouteAlert = true;
                     }
-                }) {
-                    Text("Save Route")
+                    else{
+                        showingRouteAlert = true;
+                        successRouteAlert = false;
+                    }
+                })
+                .alert("There are no stops in your route.", isPresented: $showingRouteAlert) {
+                    Button("OK", role: .cancel) { }
+                }
+                .alert("Route Saved", isPresented: $successRouteAlert ) {
+                    Button("OK", role: .cancel) { }
+                }
+                
+                Button("Save as New Route", action: {
+                    if(!user.coordinateArray.isEmpty){
+                        user.addNewRoute()
+                        showingNewRouteAlert = false;
+                        successNewRouteAlert = true;
+                    }
+                    else{
+                        showingNewRouteAlert = true;
+                        successNewRouteAlert = false;
+                    }
+                })
+                .alert("There are no stops in your route.", isPresented: $showingNewRouteAlert) {
+                    Button("OK", role: .cancel) { }
+                }
+                .alert("Route Added", isPresented: $successNewRouteAlert ) {
+                    Button("OK", role: .cancel) { }
                 }
                 Button(action: {
-                    user.clearRoute()
+                    user.clearCurrentRoute()
                 }) {
-                    Text("Clear Routes")
+                    Text("Clear Current Routes")
                 }
             }
             

@@ -48,8 +48,18 @@ class UserForm : LocationTemplate {
             }
         }
     }
-    func saveRoute(){
+    func addNewRoute(){
         routes.append(locationStops)
+    }
+    func saveRoute(){
+        if(routes.isEmpty){
+            routes.append(locationStops)
+        }
+        else {
+            routes[routes.count-1] = locationStops
+        }
+            
+        
     }
     func printCoordinates(){
         if (!coordinateArray.isEmpty){
@@ -71,7 +81,7 @@ class UserForm : LocationTemplate {
 
         }
     }
-    func clearRoute(){
+    func clearCurrentRoute(){
         locationStops = []
         coordinateArray = []
     }

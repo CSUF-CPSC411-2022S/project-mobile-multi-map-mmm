@@ -19,23 +19,20 @@ struct OptimizeScreen: View {
                     //Text(locationStops[0])
                     List {
                         Text("Your starting home address: ")
-                        Text("\(user.fullAddress)")
+                        if(user.fullAddress != " , ,  ") {
+                            Text("\(user.fullAddress)")
+                        }
+                        else {
+                            Text("")
+                        }
                         Section(header: Text("Current Route:")) {
-                            NavigationLink(destination: Text("First Location Details")) {
-                                Text("First Location")
+                            ForEach(user.locationStops){
+                                loc in
+                                NavigationLink(destination: Text("\(loc.fullAddress)")) {
+                                    Text("\(loc.name)")
+                                }
                             }
-                            NavigationLink(destination: Text("Second Location Details")) {
-                                Text("Second Location")
-                            }
-                            NavigationLink(destination: Text("Third Location Details")) {
-                                Text("Third Location")
-                            }
-                            NavigationLink(destination: Text("Fourth Location Details")) {
-                                Text("Fourth Location")
-                            }
-                            NavigationLink(destination: Text("Fifth Location Details")) {
-                                Text("Fifth Location")
-                            }
+                           
                         }
                     }
                     Spacer()
