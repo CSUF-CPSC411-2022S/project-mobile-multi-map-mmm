@@ -4,12 +4,13 @@
 //
 //  Created by David Do on 3/19/22.
 //
-
+import Foundation
 import MapKit
 import SwiftUI
+import UIKit
 
 
-
+/*
 enum MapDetails {
     
     static let startingLocation = CLLocationCoordinate2D(latitude: 33.879799, longitude: -117.885231)
@@ -58,5 +59,41 @@ final class MapScreenViewModel: NSObject, ObservableObject, CLLocationManagerDel
     }
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         checkLocationAuthorization()
+    }
+}
+*/
+
+struct MapView: UIViewRepresentable {
+    typealias UIViewType = UIView
+    
+    // var coordinate = CLLocationCoordinate2D()
+    
+    @EnvironmentObject var user: UserForm
+    
+    func makeUIView(context: Context) -> UIView {
+        let view = UIView()
+        
+        let map = MKMapView()
+        
+        map.setRegion(MKCoordinateRegion(center: user.coordinate!, span: MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03)), animated: true)
+        
+        view.addSubview(map)
+        map.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            map.widthAnchor.constraint(equalTo: view.widthAnchor),
+            map.heightAnchor.constraint(equalTo: view.heightAnchor),
+            map.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            map.centerYAnchor.constraint(equalTo: view.centerYAnchor)])
+        
+        let pin = MKPointAnnotation()
+        pin.coordinate = user.coordinate!
+        map.addAnnotation(pin)
+        
+        return view
+    }
+    
+    func updateUIView(_ uiView: UIView, context: Context) {
+        //Nothing
     }
 }
