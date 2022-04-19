@@ -48,4 +48,54 @@ class UserFormTests: XCTestCase {
         XCTAssertEqual(user2.checkProperties(), false)
     }
     
+    func testAddStop(){
+        let user = UserForm("Bruce Wayne", "28", "123", "Bat Drive", "Gotham City", "NY", "21321")
+        let location = Location(1, "Irvine Spectrum", "670", "Spectrum Center Dr", "Irvine", "CA", "92618")
+        user.addStop(at: location)
+        
+        XCTAssertEqual(user.locationStops[user.locationStops.count-1].locationNumber, location.locationNumber)
+        XCTAssertEqual(user.locationStops[user.locationStops.count-1].name, location.name)
+        XCTAssertEqual(user.locationStops[user.locationStops.count-1].streetNum, location.streetNum)
+        XCTAssertEqual(user.locationStops[user.locationStops.count-1].streetName, location.streetName)
+        XCTAssertEqual(user.locationStops[user.locationStops.count-1].city, location.city)
+        XCTAssertEqual(user.locationStops[user.locationStops.count-1].state, location.state)
+        XCTAssertEqual(user.locationStops[user.locationStops.count-1].zip, location.zip)
+        
+    }
+    
+    func testClearCurrentRoute(){
+        let user = UserForm("Bruce Wayne", "28", "123", "Bat Drive", "Gotham City", "NY", "21321")
+        let location = Location(1, "Irvine Spectrum", "670", "Spectrum Center Dr", "Irvine", "CA", "92618")
+        user.addStop(at: location)
+        user.addNewRoute()
+        user.clearCurrentRoute()
+        XCTAssertEqual(user.locationStops.isEmpty, true)
+        XCTAssertEqual(user.coordinateArray.isEmpty, true)
+    }
+    
+    func testAddNewRoute(){
+        
+        let user = UserForm("Bruce Wayne", "28", "123", "Bat Drive", "Gotham City", "NY", "21321")
+        let location = Location(1, "Irvine Spectrum", "670", "Spectrum Center Dr", "Irvine", "CA", "92618")
+        user.clearCurrentRoute()
+        user.addStop(at: location)
+        
+        user.addNewRoute()
+        
+        XCTAssertEqual(user.routes.isEmpty, false)
+    }
+    
+    func testSaveRoute(){
+        
+        let user = UserForm("Bruce Wayne", "28", "123", "Bat Drive", "Gotham City", "NY", "21321")
+        let location = Location(1, "Irvine Spectrum", "670", "Spectrum Center Dr", "Irvine", "CA", "92618")
+        user.clearCurrentRoute()
+        user.addStop(at: location)
+        
+        user.saveRoute()
+        
+        XCTAssertEqual(user.routes.isEmpty, false)
+    }
+    
 }
+
