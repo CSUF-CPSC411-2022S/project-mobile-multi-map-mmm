@@ -50,10 +50,12 @@ class UserForm : LocationTemplate {
     }
     func addNewRoute(){
         routes.append(locationStops)
+        clearCurrentRoute()
     }
     func saveRoute(){
         if(routes.isEmpty){
             routes.append(locationStops)
+            clearCurrentRoute()
         }
         else {
             routes[routes.count-1] = locationStops
