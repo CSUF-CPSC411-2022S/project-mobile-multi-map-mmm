@@ -75,8 +75,16 @@ struct MapView: UIViewRepresentable {
         
         let map = MKMapView()
         
-        map.setRegion(MKCoordinateRegion(center: user.coordinate!, span: MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03)), animated: true)
-        
+        if user.coordinate == nil {
+            // Default Map Location
+            user.coordinate = CLLocationCoordinate2D(latitude: 33.879799, longitude: -117.885231)
+            map.setRegion(MKCoordinateRegion(center: user.coordinate!, span: MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03)), animated: true)
+        }
+        else {
+            // User-Inputed Beginning Location
+            map.setRegion(MKCoordinateRegion(center: user.coordinate!, span: MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03)), animated: true)
+        }
+                
         view.addSubview(map)
         map.translatesAutoresizingMaskIntoConstraints = false
         
@@ -85,7 +93,7 @@ struct MapView: UIViewRepresentable {
             map.heightAnchor.constraint(equalTo: view.heightAnchor),
             map.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             map.centerYAnchor.constraint(equalTo: view.centerYAnchor)])
-        
+
         let pin = MKPointAnnotation()
         pin.coordinate = user.coordinate!
         map.addAnnotation(pin)
