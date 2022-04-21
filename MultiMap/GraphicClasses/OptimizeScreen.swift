@@ -48,7 +48,11 @@ struct OptimizeScreen: View {
         VStack {
             Text("670 Spectrum Center")
             Button(action: {
-                finder.find("670 Spectrum Center Irvine, CA 92618")
+                print("CURRENT COORDINATE: \(user.coordinateArray)")
+                finder.findCoordString(user.coordinateArray);
+                finder.find()
+                print("DISTANCE: \(finder.getDistance())")
+                print("NEW COORDINATES: \(finder.newCoords)")
             }) {
                 Text("Find crosswalk")
             }
