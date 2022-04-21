@@ -9,6 +9,7 @@ import SwiftUI
 
 struct OptimizeScreen: View {
     @EnvironmentObject var user: UserForm
+    @StateObject var finder = LocationDetails()
     
     var body: some View {
         NavigationView{
@@ -28,8 +29,9 @@ struct OptimizeScreen: View {
                         Section(header: Text("Current Route:")) {
                             ForEach(user.locationStops){
                                 loc in
-                                NavigationLink(destination: Text("\(loc.fullAddress)")) {
+                                NavigationLink(destination: thirdScreenA) {
                                     Text("\(loc.name)")
+                                    
                                 }
                             }
                            
@@ -41,5 +43,17 @@ struct OptimizeScreen: View {
             .navigationTitle("Optimized Route")
         }
     }
+    
+    var thirdScreenA: some View {
+        VStack {
+            Text("670 Spectrum Center")
+            Button(action: {
+                finder.find("670 Spectrum Center Irvine, CA 92618")
+            }) {
+                Text("Find crosswalk")
+            }
+        }
+        
+      }
 }
 
