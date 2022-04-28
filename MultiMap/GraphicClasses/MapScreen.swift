@@ -8,34 +8,21 @@
 import MapKit
 import SwiftUI
 
-
-
-
-struct MapScreen: View{
-    @EnvironmentObject var user: UserForm
-    
-    @StateObject private var viewModel = MapScreenViewModel()
-    
-    
+struct MapScreen: View {
+//    var body: some View {
+//        NavigationView {
+//            VStack {
+//                GeometryReader { proxy in
+//                    MapView()
+//                        .frame(width: proxy.size.width, height: proxy.size.height, alignment: .center)
+//                }
+//            }
+//            .navigationTitle("Map")
+//        }
+//    }
     var body: some View {
-        NavigationView{
-            
-            ZStack{
-                
-                Map(coordinateRegion: $viewModel.region, showsUserLocation: true)
-                    .accentColor(Color(.systemPink))
-                    .onAppear {
-                        if let validStart = user.coordinate {
-                            print("Inside On appear")
-                            viewModel.updateRegion(startLocation: validStart)
-                        }
-                        else{
-                            print("not valid location")
-                        }
-                        viewModel.checkLocationServiceEnabled()
-                    }
-            }
-            .navigationTitle("Map")
+        VStack {
+          MapView()
         }
     }
 }

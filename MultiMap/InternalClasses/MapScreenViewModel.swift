@@ -5,58 +5,62 @@
 //  Created by David Do on 3/19/22.
 //
 
+import Foundation
 import MapKit
 import SwiftUI
+import UIKit
 
+struct MapView: UIViewRepresentable {
+ 
+  typealias UIViewType = MKMapView
+ 
+ 
+  func makeCoordinator() -> MapViewCoordinator {
+    return MapViewCoordinator()
+  }
+ 
+  func makeUIView(context: Context) -> MKMapView {
+    let mapView = MKMapView()
+    mapView.delegate = context.coordinator
+ 
+    let region = MKCoordinateRegion(
+        center: CLLocationCoordinate2D(latitude: 40.71, longitude: -74),
+        span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
+    mapView.setRegion(region, animated: true)
+ 
+    // NYC
+    let p1 = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: 40.71, longitude: -74))
 
-
-enum MapDetails {
-    
-    static let startingLocation = CLLocationCoordinate2D(latitude: 33.879799, longitude: -117.885231)
-    static let defaultSpan = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
-}
-
-final class MapScreenViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
-    
-    
-    @Published var region = MKCoordinateRegion(center: MapDetails.startingLocation, span: MapDetails.defaultSpan)
-    
-    var locationManager: CLLocationManager?
-    
-    
-   
-    func updateRegion(startLocation: CLLocationCoordinate2D){
-        region = MKCoordinateRegion(center: startLocation, span: MapDetails.defaultSpan)
+    // Boston
+    let p2 = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: 42.36, longitude: -71.05))
+ 
+    let request = MKDirections.Request()
+    request.source = MKMapItem(placemark: p1)
+    request.destination = MKMapItem(placemark: p2)
+    request.transportType = .automobile
+ 
+    let directions = MKDirections(request: request)
+    directions.calculate { response, error in
+      guard let route = response?.routes.first else { return }
+      mapView.addAnnotations([p1, p2])
+      mapView.addOverlay(route.polyline)
+      mapView.setVisibleMapRect(
+        route.polyline.boundingMapRect,
+        edgePadding: UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20),
+        animated: true)
     }
-    
-    func checkLocationServiceEnabled() {
-        if CLLocationManager.locationServicesEnabled() {
-            locationManager = CLLocationManager()
-            locationManager!.delegate = self
-        } else {
-            print("User must turn on location services.")
-        }
+    return mapView
+  }
+ 
+  func updateUIView(_ uiView: MKMapView, context: Context) {
+  }
+ 
+  class MapViewCoordinator: NSObject, MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+      let renderer = MKPolylineRenderer(overlay: overlay)
+      renderer.strokeColor = .systemBlue
+      renderer.lineWidth = 5
+      return renderer
     }
-    private func checkLocationAuthorization() {
-        guard let locationManager = locationManager else { return }
-        
-        switch locationManager.authorizationStatus {
-            
-        case .notDetermined:
-            locationManager.requestWhenInUseAuthorization()
-        case .restricted:
-            print("User Location is restricted.")
-        case .denied:
-            print("User Location has been denied, please allow user location permission.")
-        case .authorizedAlways, .authorizedWhenInUse:
-            region = MKCoordinateRegion(center: locationManager.location!.coordinate,
-                                        span: MapDetails.defaultSpan)
-        @unknown default:
-            break
-        }
-
-    }
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        checkLocationAuthorization()
-    }
+  }
 }

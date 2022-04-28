@@ -50,7 +50,7 @@ class LocationDetails: ObservableObject {
                     data, response, error in
                     // Run the code asynchronously so the UI can be updated while we wait for a reply from the server and decode the JSON.
                     DispatchQueue.main.async {
-                        print("inside main async")
+                        print("inside main async ")
                         let jsonDecoder = JSONDecoder()
                         // Decode the JSON and store in result
                         if let validData = data, let result = try? jsonDecoder.decode(MapsAPIResult.self, from: validData) {
