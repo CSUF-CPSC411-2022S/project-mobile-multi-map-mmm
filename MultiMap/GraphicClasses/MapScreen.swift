@@ -44,14 +44,15 @@ import CoreLocation
 
 struct MapScreen: View {
     var body: some View {
-        NavigationView {
             VStack {
-                GeometryReader { proxy in
-                    MapView()
-                        .frame(width: proxy.size.width, height: proxy.size.height, alignment: .center)
-                }
+                MapView()
+                
+                Button(action: {
+                    
+                }, label: {
+                    Text("Show Directions")
+                })
+                    .padding()
             }
-            .navigationTitle("Map")
-        }
     }
 }

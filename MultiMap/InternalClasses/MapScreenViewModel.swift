@@ -7,101 +7,80 @@
 import Foundation
 import MapKit
 import SwiftUI
-import UIKit
-
-
-/*
-enum MapDetails {
-    
-    static let startingLocation = CLLocationCoordinate2D(latitude: 33.879799, longitude: -117.885231)
-    static let defaultSpan = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
-}
-
-final class MapScreenViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
-    
-    
-    @Published var region = MKCoordinateRegion(center: MapDetails.startingLocation, span: MapDetails.defaultSpan)
-    
-    var locationManager: CLLocationManager?
-    
-    
-   
-    func updateRegion(startLocation: CLLocationCoordinate2D){
-        region = MKCoordinateRegion(center: startLocation, span: MapDetails.defaultSpan)
-    }
-    
-    func checkLocationServiceEnabled() {
-        if CLLocationManager.locationServicesEnabled() {
-            locationManager = CLLocationManager()
-            locationManager!.delegate = self
-        } else {
-            print("User must turn on location services.")
-        }
-    }
-    private func checkLocationAuthorization() {
-        guard let locationManager = locationManager else { return }
-        
-        switch locationManager.authorizationStatus {
-            
-        case .notDetermined:
-            locationManager.requestWhenInUseAuthorization()
-        case .restricted:
-            print("User Location is restricted.")
-        case .denied:
-            print("User Location has been denied, please allow user location permission.")
-        case .authorizedAlways, .authorizedWhenInUse:
-            region = MKCoordinateRegion(center: locationManager.location!.coordinate,
-                                        span: MapDetails.defaultSpan)
-        @unknown default:
-            break
-        }
-
-    }
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        checkLocationAuthorization()
-    }
-}
-*/
 
 struct MapView: UIViewRepresentable {
-    typealias UIViewType = UIView
+    typealias UIViewType = MKMapView
     
     // var coordinate = CLLocationCoordinate2D()
     
     @EnvironmentObject var user: UserForm
     
-    func makeUIView(context: Context) -> UIView {
-        let view = UIView()
-        
-        let map = MKMapView()
-        
-        if user.coordinate == nil {
-            // Default Map Location
-            user.coordinate = CLLocationCoordinate2D(latitude: 33.879799, longitude: -117.885231)
-            map.setRegion(MKCoordinateRegion(center: user.coordinate!, span: MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03)), animated: true)
-        }
-        else {
-            // User-Inputed Beginning Location
-            map.setRegion(MKCoordinateRegion(center: user.coordinate!, span: MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03)), animated: true)
-        }
-                
-        view.addSubview(map)
-        map.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            map.widthAnchor.constraint(equalTo: view.widthAnchor),
-            map.heightAnchor.constraint(equalTo: view.heightAnchor),
-            map.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            map.centerYAnchor.constraint(equalTo: view.centerYAnchor)])
-
-        let pin = MKPointAnnotation()
-        pin.coordinate = user.coordinate!
-        map.addAnnotation(pin)
-        
-        return view
+    func makeCoordinator() ->MapViewCoordinator {
+        return MapViewCoordinator()
     }
     
-    func updateUIView(_ uiView: UIView, context: Context) {
+    func makeUIView(context: Context) -> MKMapView {
+        // Initialize Map View Instance
+        let mapView = MKMapView()
+        
+        mapView.delegate = context.coordinator
+        
+        if user.coordinate == nil {
+            user.coordinate = CLLocationCoordinate2D(latitude: 33.87, longitude: -117.88)
+        }
+        // Have screen center at user-inputed location
+        //let region = MKCoordinateRegion(center: user.coordinate!, span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
+        let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 33.8723, longitude: -117.8851), span: MKCoordinateSpan(latitudeDelta: 1.0, longitudeDelta: 1.0))
+        mapView.setRegion(region, animated: true)
+        
+        //let p1 = MKPlacemark(coordinate: user.coordinate!)
+        
+        let start = MKPlacemark(coordinate: user.coordinate!)
+        var arr: [MKPlacemark] = [];
+        arr.append(start);
+        
+        if(!user.coordinateArray.isEmpty){
+            for i in 0...user.coordinateArray.count - 1{
+                arr.append(MKPlacemark(coordinate: user.coordinateArray[i]))
+            }
+        
+        }
+       
+    
+        mapView.addAnnotations(arr)
+        
+        if arr.count > 1 {
+            for i in 0...arr.count-2{
+                var request = MKDirections.Request()
+                request.source = MKMapItem(placemark: arr[i])
+                request.destination = MKMapItem(placemark: arr[i+1])
+                request.transportType = .automobile
+                
+                var directions = MKDirections(request: request)
+                directions.calculate { response, error in
+                    guard var route = response?.routes.first else { return }
+                    mapView.addOverlay((route.polyline))
+                    mapView.setVisibleMapRect(route.polyline.boundingMapRect, edgePadding: UIEdgeInsets(top: 30, left: 30, bottom: 30, right: 30), animated: true)
+                }
+                
+            }
+        }
+        
+       
+        
+        return mapView
+    }
+     
+    
+    func updateUIView(_ uiView: MKMapView, context: Context) {
         //Nothing
+    }
+    class MapViewCoordinator: NSObject, MKMapViewDelegate {
+        func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+            let renderer = MKPolylineRenderer(overlay: overlay)
+            renderer.strokeColor = .blue
+            renderer.lineWidth = 5
+            return renderer
+        }
     }
 }
