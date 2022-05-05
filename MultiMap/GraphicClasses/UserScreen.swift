@@ -132,6 +132,7 @@ struct AddLocation: View {
                             zip = ""
 
                         }
+                        user.viewToggle.toggle()
                     }
                 })
                 .alert("Please enter a valid address", isPresented: $showingAddAlert) {
@@ -306,6 +307,7 @@ struct UserScreen: View{
                             if(user.checkProperties()){
                                 allFilled.toggle()
                                 user.updateCoordinate()
+                                user.viewToggle.toggle()
 //                                user.printLocations()
                             }
 

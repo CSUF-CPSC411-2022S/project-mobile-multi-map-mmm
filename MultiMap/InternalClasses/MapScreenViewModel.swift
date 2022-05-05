@@ -14,6 +14,7 @@ struct MapView: UIViewRepresentable {
     // var coordinate = CLLocationCoordinate2D()
     
     @EnvironmentObject var user: UserForm
+    @State var toggle: Bool = true;
     
     func makeCoordinator() ->MapViewCoordinator {
         return MapViewCoordinator()
@@ -22,30 +23,36 @@ struct MapView: UIViewRepresentable {
     func makeUIView(context: Context) -> MKMapView {
         // Initialize Map View Instance
         let mapView = MKMapView()
+        if (toggle != user.viewToggle){
+            toggle = user.viewToggle
+        }
         
         mapView.delegate = context.coordinator
         
-        if user.coordinate == nil {
-            user.coordinate = CLLocationCoordinate2D(latitude: 33.87, longitude: -117.88)
+        print("before user coordinate")
+        if self.user.coordinate == nil {
+            self.user.coordinate = CLLocationCoordinate2D(latitude: 33.87, longitude: -117.88)
         }
+        
+        print("after user coordinate")
         // Have screen center at user-inputed location
-        //let region = MKCoordinateRegion(center: user.coordinate!, span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
-        let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 33.8723, longitude: -117.8851), span: MKCoordinateSpan(latitudeDelta: 1.0, longitudeDelta: 1.0))
+        let region = MKCoordinateRegion(center: user.coordinate!, span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
         mapView.setRegion(region, animated: true)
         
         //let p1 = MKPlacemark(coordinate: user.coordinate!)
         
         let start = MKPlacemark(coordinate: user.coordinate!)
+        print("start", start)
         var arr: [MKPlacemark] = [];
         arr.append(start);
-        
+        print("arr with start", arr)
         if(!user.coordinateArray.isEmpty){
             for i in 0...user.coordinateArray.count - 1{
                 arr.append(MKPlacemark(coordinate: user.coordinateArray[i]))
             }
-        
         }
-       
+        print("after populating arr")
+        print(arr)
     
         mapView.addAnnotations(arr)
         
@@ -74,6 +81,9 @@ struct MapView: UIViewRepresentable {
     
     func updateUIView(_ uiView: MKMapView, context: Context) {
         //Nothing
+        uiView.setNeedsDisplay();
+        print("******insdie update view")
+        
     }
     class MapViewCoordinator: NSObject, MKMapViewDelegate {
         func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
