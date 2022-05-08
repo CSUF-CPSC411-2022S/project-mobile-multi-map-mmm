@@ -16,7 +16,7 @@ struct OptimizeScreen: View {
                 Color.orange
                 VStack {
                     Spacer()
-                    //Text(locationStops[0])
+                    // for each navigation in list
                     List {
                         Text("Your starting home address: ")
                         if(user.fullAddress != " , ,  ") {
