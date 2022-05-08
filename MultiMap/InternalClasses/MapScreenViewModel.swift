@@ -11,9 +11,8 @@ import SwiftUI
 struct MapView: UIViewRepresentable {
     typealias UIViewType = MKMapView
     
-    // var coordinate = CLLocationCoordinate2D()
-    
     @EnvironmentObject var user: UserForm
+    @Binding var directions: [String]
     
     func makeCoordinator() ->MapViewCoordinator {
         return MapViewCoordinator()
@@ -25,12 +24,10 @@ struct MapView: UIViewRepresentable {
         
         mapView.delegate = context.coordinator
         
-        print("before user coordinate")
         if self.user.coordinate == nil {
             self.user.coordinate = CLLocationCoordinate2D(latitude: 33.87, longitude: -117.88)
         }
         
-        print("after user coordinate")
         // Have screen center at user-inputed location
         let region = MKCoordinateRegion(center: user.coordinate!, span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
         mapView.setRegion(region, animated: true)
@@ -64,22 +61,16 @@ struct MapView: UIViewRepresentable {
                     guard let route = response?.routes.first else { return }
                     mapView.addOverlay((route.polyline))
                     mapView.setVisibleMapRect(route.polyline.boundingMapRect, edgePadding: UIEdgeInsets(top: 30, left: 30, bottom: 30, right: 30), animated: true)
+                    self.directions = route.steps.map { $0.instructions }.filter { !$0.isEmpty }
                 }
-                
             }
         }
-        
-       
-        
         return mapView
     }
      
     
     func updateUIView(_ uiView: MKMapView, context: Context) {
         //Nothing
-        uiView.setNeedsDisplay();
-        print("******insdie update view")
-        
     }
     class MapViewCoordinator: NSObject, MKMapViewDelegate {
         func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
