@@ -65,12 +65,8 @@ struct MapView: UIViewRepresentable {
                     mapView.addOverlay((route.polyline))
                     mapView.setVisibleMapRect(route.polyline.boundingMapRect, edgePadding: UIEdgeInsets(top: 30, left: 30, bottom: 30, right: 30), animated: true)
                 }
-                
             }
         }
-        
-       
-        
         return mapView
     }
      
