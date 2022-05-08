@@ -74,7 +74,6 @@ struct MapView: UIViewRepresentable {
     func updateUIView(_ uiView: MKMapView, context: Context) {
         //Nothing
         uiView.setNeedsDisplay();
-        print("******insdie update view")
         
     }
     class MapViewCoordinator: NSObject, MKMapViewDelegate {
