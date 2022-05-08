@@ -21,6 +21,7 @@ struct RouteView: View{
     
     var body: some View {
         Spacer()
+        // for each navigation in list
         List {
             Text("Your starting home address: ")
             if(user.fullAddress != " , ,  ") {
