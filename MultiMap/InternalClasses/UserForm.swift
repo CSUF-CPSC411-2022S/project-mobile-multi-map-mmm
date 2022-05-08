@@ -14,7 +14,6 @@ class UserForm : LocationTemplate {
     @Published var coordinateArray: [CLLocationCoordinate2D] = []
     @Published var routes: [[Location]] = []
     @Published var coordinate: CLLocationCoordinate2D? = nil;
-    @Published var viewToggle: Bool = false;
     
     override init() {
         self.age = ""

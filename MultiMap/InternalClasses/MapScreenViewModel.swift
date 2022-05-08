@@ -14,7 +14,6 @@ struct MapView: UIViewRepresentable {
     // var coordinate = CLLocationCoordinate2D()
     
     @EnvironmentObject var user: UserForm
-    @State var toggle: Bool = true;
     
     func makeCoordinator() ->MapViewCoordinator {
         return MapViewCoordinator()
@@ -23,9 +22,6 @@ struct MapView: UIViewRepresentable {
     func makeUIView(context: Context) -> MKMapView {
         // Initialize Map View Instance
         let mapView = MKMapView()
-        if (toggle != user.viewToggle){
-            toggle = user.viewToggle
-        }
         
         mapView.delegate = context.coordinator
         
@@ -58,14 +54,14 @@ struct MapView: UIViewRepresentable {
         
         if arr.count > 1 {
             for i in 0...arr.count-2{
-                var request = MKDirections.Request()
+                let request = MKDirections.Request()
                 request.source = MKMapItem(placemark: arr[i])
                 request.destination = MKMapItem(placemark: arr[i+1])
                 request.transportType = .automobile
                 
-                var directions = MKDirections(request: request)
+                let directions = MKDirections(request: request)
                 directions.calculate { response, error in
-                    guard var route = response?.routes.first else { return }
+                    guard let route = response?.routes.first else { return }
                     mapView.addOverlay((route.polyline))
                     mapView.setVisibleMapRect(route.polyline.boundingMapRect, edgePadding: UIEdgeInsets(top: 30, left: 30, bottom: 30, right: 30), animated: true)
                 }
