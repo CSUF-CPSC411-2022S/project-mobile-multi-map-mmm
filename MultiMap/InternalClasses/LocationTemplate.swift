@@ -47,12 +47,13 @@ class LocationTemplate: ObservableObject {
         print("Deleting location...")
     }
     
-    
+    // This method uses swift closure and the @escaping keyword to return the 2Dcoord of a location
     func get2DCoord(completion: @escaping (_ loc: CLLocationCoordinate2D?) -> Void) {
         
         let address = fullAddress;
 
         let geoCoder = CLGeocoder()
+        // this method takes in a closure as teh last parameter and calls the completion
         geoCoder.geocodeAddressString(address) { (placemarks, error) in
             guard let placemarks = placemarks,
             let loc = placemarks.first?.location?.coordinate else {
