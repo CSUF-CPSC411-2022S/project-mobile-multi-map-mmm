@@ -58,8 +58,6 @@ class UserForm : LocationTemplate {
         else {
             routes[routes.count-1] = locationStops
         }
-            
-        
     }
     func printCoordinates(){
         if (!coordinateArray.isEmpty){
