@@ -48,6 +48,23 @@ class UserForm : LocationTemplate {
             }
         }
     }
+    func exportRoute(){
+        var str = ""
+        for i in 0...locationStops.count-1{
+            str += locationStops[i].fullAddress
+            str += "\n"
+        }
+        let file = "savedRoutes.txt"
+        if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+            let fileURL = dir.appendingPathComponent(file)
+            do {
+                try str.write(to: fileURL, atomically: false, encoding: .utf8)
+            }
+            catch {
+                print("Could Not Export Route")
+            }
+        }
+    }
     func addNewRoute(){
         routes.append(locationStops)
         clearCurrentRoute()
