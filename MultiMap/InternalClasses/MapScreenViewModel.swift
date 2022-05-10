@@ -61,7 +61,7 @@ struct MapView: UIViewRepresentable {
                     guard let route = response?.routes.first else { return }
                     mapView.addOverlay((route.polyline))
                     mapView.setVisibleMapRect(route.polyline.boundingMapRect, edgePadding: UIEdgeInsets(top: 30, left: 30, bottom: 30, right: 30), animated: true)
-                    self.directions = route.steps.map { $0.instructions }.filter { !$0.isEmpty }
+                    self.directions += route.steps.map { $0.instructions }.filter { !$0.isEmpty }
                 }
             }
         }
